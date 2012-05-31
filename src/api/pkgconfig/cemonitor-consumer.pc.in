@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@/usr
+exec_prefix=@CMAKE_INSTALL_PREFIX@/usr
+libdir=@CMAKE_INSTALL_PREFIX@/usr/lib
+includedir=@CMAKE_INSTALL_PREFIX@/usr/include
+
+Name: monitor consuemr api
+Description: C/C++ APIs for CEMonitor Consumer
+Version: @VERSION@
+Libs: -L${libdir} -lglite_ce_monitor_consumer
+Cflags: -I${includedir} -I${includedir}/glite/ce
+

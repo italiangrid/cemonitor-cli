@@ -1,0 +1,136 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+    <!ENTITY dhtitle "User Manuals">
+    <!ENTITY dhcommand "glite-ce-monitor-subscribe">
+    <!ENTITY dhsection "1">
+    
+    <!ENTITY dhfirstname "Alvise">
+    <!ENTITY dhsurname "Dorigo">
+    <!ENTITY dhemail "alvise.dorigo@pd.infn.it">
+    <!ENTITY dhcontrib "Developer of the CREAM User Interface">
+    
+]>
+
+
+
+<refentry>
+
+    <refentryinfo>
+        <title>&dhtitle;</title>
+        <productname>&dhcommand;</productname>
+        <authorgroup>
+            <author>
+                <firstname>&dhfirstname;</firstname>
+                <surname>&dhsurname;</surname>
+                <contrib>&dhcontrib;</contrib>
+                <address>
+                    <email>&dhemail;</email>
+                </address>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>&dhcommand;</refentrytitle>
+        <manvolnum>&dhsection;</manvolnum>
+    </refmeta>
+
+    <refnamediv>
+        <refname>&dhcommand;</refname>
+        <refpurpose>Register a subscription on a CEMonitor service.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+        <cmdsynopsis>
+            <command>&dhcommand;</command>
+            <arg choice="opt"><option>options</option></arg>
+            <arg choice="plain"><option>--topic <replaceable><![CDATA[<topic name>]]></replaceable></option></arg>
+            <arg choice="plain"><option>--consumer-url <replaceable><![CDATA[<Consumer_URL>]]></replaceable></option></arg>
+            <arg choice="plain"><replaceable><![CDATA[<CEMon_URL>]]></replaceable></arg>
+        </cmdsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1>
+        <title>DESCRIPTION</title>
+        <para>The command <command>&dhcommand;</command> registers a subscription on a CEMonitor service.</para>
+        
+        <para>Options <option>--topic</option> and <option>--consumer-url</option> are mandatory.</para>
+        
+    </refsect1>
+
+    <refsect1>
+        <title>OPTIONS</title>
+        <variablelist>
+
+            <varlistentry>
+                <term><option>--key <replaceable class="parameter">key_file</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the path of the user private key.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--cert <replaceable class="parameter">cert_file</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the path of the user certificate.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--dialect <replaceable class="parameter">dialect</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the dialect required for the output format.
+                    The set of dialects available for a topic can be retrieved using <command>glite-ce-monitor-gettopics</command>.</para>
+                </listitem>
+            </varlistentry>
+            
+            <varlistentry>
+                <term><option>--rate <replaceable class="parameter">rate</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the notification rates in milliseconds.</para>
+                </listitem>
+            </varlistentry>
+            
+            <varlistentry>
+                <term><option>--duration <replaceable class="parameter">duration</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the lifetime of the subscription in milliseconds.</para>
+                </listitem>
+            </varlistentry>
+            
+        </variablelist>
+    </refsect1>
+
+    <refsect1>
+        <title>SEE ALSO</title>
+        <para>
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-gettopics</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-pause</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-resume</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-subinfo</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-subupdate</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-unsubscribe</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>
+        </para>
+    </refsect1>
+
+</refentry>
+

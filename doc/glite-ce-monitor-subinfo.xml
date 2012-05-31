@@ -1,0 +1,106 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+    <!ENTITY dhtitle "User Manuals">
+    <!ENTITY dhcommand "glite-ce-monitor-subinfo">
+    <!ENTITY dhsection "1">
+    
+    <!ENTITY dhfirstname "Alvise">
+    <!ENTITY dhsurname "Dorigo">
+    <!ENTITY dhemail "alvise.dorigo@pd.infn.it">
+    <!ENTITY dhcontrib "Developer of the CREAM User Interface">
+    
+]>
+
+
+
+<refentry>
+
+    <refentryinfo>
+        <title>&dhtitle;</title>
+        <productname>&dhcommand;</productname>
+        <authorgroup>
+            <author>
+                <firstname>&dhfirstname;</firstname>
+                <surname>&dhsurname;</surname>
+                <contrib>&dhcontrib;</contrib>
+                <address>
+                    <email>&dhemail;</email>
+                </address>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>&dhcommand;</refentrytitle>
+        <manvolnum>&dhsection;</manvolnum>
+    </refmeta>
+
+    <refnamediv>
+        <refname>&dhcommand;</refname>
+        <refpurpose>Return information about user subscriptions.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+        <cmdsynopsis>
+            <command>&dhcommand;</command>
+            <arg choice="opt"><option>options</option></arg>
+            <arg choice="plain"><replaceable><![CDATA[<CEMon_URL>]]></replaceable></arg>
+        </cmdsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1>
+        <title>DESCRIPTION</title>
+        <para>The command <command>&dhcommand;</command> returns information about user subscriptions.</para>
+        
+    </refsect1>
+
+    <refsect1>
+        <title>OPTIONS</title>
+        <variablelist>
+
+            <varlistentry>
+                <term><option>--key <replaceable class="parameter">key_file</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the path of the user private key.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--cert <replaceable class="parameter">cert_file</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the path of the user certificate.</para>
+                </listitem>
+            </varlistentry>
+
+        </variablelist>
+    </refsect1>
+
+    <refsect1>
+        <title>SEE ALSO</title>
+        <para>
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-pause</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-resume</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-subscribe</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-subupdate</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-monitor-unsubscribe</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>
+        </para>
+    </refsect1>
+
+</refentry>
+
