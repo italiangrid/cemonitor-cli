@@ -33,8 +33,12 @@ pkg_check_modules(GLOBUS_CALLOUT globus-callout)
 pkg_check_modules(GLOBUS_COMMON globus-common)
 pkg_check_modules(GLOBUS_CORE globus-core)
 
+if( IS_DIRECTORY "/usr/lib64" )
+    set(BOOST_ROOT "/usr")
+    set(BOOST_LIBRARYDIR "/usr/lib64")
+endif( IS_DIRECTORY "/usr/lib64" )
 set(Boost_USE_MULTITHREADED ON)
-find_package( Boost COMPONENTS date_time filesystem regex thread)
+find_package( Boost COMPONENTS filesystem regex )
 
 add_definitions( -pipe )
 
@@ -52,6 +56,7 @@ include_directories(${GSOAP_INCLUDE_DIRS}
                     ${CMAKE_CURRENT_BINARY_DIR}/api/${AUTODIR})
 
 link_directories(${CMAKE_BINARY_DIR}/api
+                 ${Boost_LIBRARY_DIRS}
                  ${GSOAP_PLUGIN_LIBRARY_DIRS})
 
 add_executable(glite-ce-monitor-consumer glite-ce-monitor-consumer.cpp)
@@ -88,7 +93,7 @@ target_link_libraries(glite-ce-monitor-subscribe ${COMMON_LIBS}
 
 add_executable(glite-ce-monitor-subupdate glite-ce-monitor-subupdate.cpp cliUtils.cpp)
 target_link_libraries(glite-ce-monitor-subupdate ${COMMON_LIBS}
-                                                 glite_ce_monitor_client cliUtils.cpp) 
+                                                 glite_ce_monitor_client) 
 
 add_executable(glite-ce-monitor-unsubscribe glite-ce-monitor-unsubscribe.cpp cliUtils.cpp)
 target_link_libraries(glite-ce-monitor-unsubscribe ${COMMON_LIBS}
