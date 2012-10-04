@@ -122,6 +122,10 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${AUTODIR}/glite/ce/monitor-client
         DESTINATION usr/include/glite/ce/monitor-client-api-c
         FILES_MATCHING PATTERN "*.h")
 
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${AUTODIR}/glite/ce/monitor-client-api-c/
+        DESTINATION usr/include/glite/ce/monitor-client-api-c
+        FILES_MATCHING PATTERN "*.nsmap")
+
 add_subdirectory(pkgconfig)
 
 
