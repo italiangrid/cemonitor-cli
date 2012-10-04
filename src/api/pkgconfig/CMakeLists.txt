@@ -26,7 +26,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cemonitor-consumer.pc.in
                @ONLY)
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/
-        DESTINATION usr/lib/pkgconfig
+        DESTINATION usr/${LIBSUBDIR}/pkgconfig
         FILES_MATCHING PATTERN "*.pc"
         PATTERN "CMakeFiles" EXCLUDE)
 

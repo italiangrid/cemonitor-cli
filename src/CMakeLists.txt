@@ -36,7 +36,11 @@ pkg_check_modules(GLOBUS_CORE globus-core)
 if( IS_DIRECTORY "/usr/lib64" )
     set(BOOST_ROOT "/usr")
     set(BOOST_LIBRARYDIR "/usr/lib64")
+    set(LIBSUBDIR "lib64")
+else( IS_DIRECTORY "/usr/lib64" )
+    set(LIBSUBDIR "lib")
 endif( IS_DIRECTORY "/usr/lib64" )
+
 set(Boost_USE_MULTITHREADED ON)
 find_package( Boost COMPONENTS filesystem regex )
 
