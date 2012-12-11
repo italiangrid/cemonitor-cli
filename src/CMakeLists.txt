@@ -47,10 +47,10 @@ else( ${CMAKE_VERSION} VERSION_LESS "2.8.2" )
     endif( IS_DIRECTORY "/usr/lib64" AND NOT IS_SYMLINK "/usr/lib64" )
 endif( ${CMAKE_VERSION} VERSION_LESS "2.8.2" )
 
-if( IS_DIRECTORY "/usr/lib64" )
-    set(BOOST_ROOT "/usr")
+if( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
     set(BOOST_LIBRARYDIR "/usr/lib64")
-endif( IS_DIRECTORY "/usr/lib64" )
+endif( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
+
 set(Boost_USE_MULTITHREADED ON)
 find_package( Boost COMPONENTS filesystem regex )
 
