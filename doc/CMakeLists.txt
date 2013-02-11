@@ -80,13 +80,6 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-subscribe
                                     ${CMAKE_CURRENT_SOURCE_DIR}/glite-ce-monitor-subscribe.xml
                    COMMAND gzip -f ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-subscribe.1)
 
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-subscribe.1.gz
-                   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/glite-ce-monitor-subscribe.xml
-                   COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-subscribe.1
-                                    ${DB_MANPAGES_STYLESHEET} 
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/glite-ce-monitor-subscribe.xml
-                   COMMAND gzip -f ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-subscribe.1)
-
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-unsubscribe.1.gz
                    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/glite-ce-monitor-unsubscribe.xml
                    COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-unsubscribe.1
@@ -101,7 +94,6 @@ add_custom_target(manpages ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-moni
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-pause.1.gz
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-resume.1.gz
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-subinfo.1.gz
-                                       ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-subscribe.1.gz
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-subscribe.1.gz
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-monitor-unsubscribe.1.gz)
 
