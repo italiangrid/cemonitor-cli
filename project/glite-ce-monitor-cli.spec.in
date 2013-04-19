@@ -1,0 +1,101 @@
+Summary: Commands for accessing the CE monitor service
+Name: glite-ce-monitor-cli
+Version: @PKGVERSION@
+Release: @PKGRELEASE@
+License: Apache Software License
+Vendor: EMI
+URL: http://glite.cern.ch/
+Group: Applications/Internet
+BuildArch: %{_arch}
+BuildRequires: cmake, libxslt, docbook-style-xsl
+BuildRequires: emi-pkgconfig-compat, glite-ce-wsdl
+BuildRequires: glite-lbjp-common-gsoap-plugin-devel, boost-devel
+BuildRequires: voms-devel, gsoap-devel, c-ares-devel
+BuildRequires: globus-openssl-devel, globus-openssl-module-devel, globus-gssapi-gsi-devel
+BuildRequires: globus-callout-devel, globus-common-devel
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+AutoReqProv: yes
+Source: %{name}.tar.gz
+
+%global debug_package %{nil}
+
+%description
+The CE monitor client is a collection of commands for accessing 
+the CE monitor service
+
+%prep
+ 
+
+%setup -c -q
+
+%build
+cmake -DCMAKE_INSTALL_PREFIX:string=%{buildroot} -DWSDL_PATH:string=/usr/share/wsdl/cream-ce %{_builddir}/%{name}-%{version}
+make
+
+%install
+rm -rf %{buildroot}
+mkdir -p %{buildroot}
+make install
+sed 's|%{buildroot}||g;s|lib\s*$|lib64|g' %{buildroot}%{_libdir}/pkgconfig/cemonitor-service.pc > %{buildroot}%{_libdir}/pkgconfig/cemonitor-service.pc.new
+mv %{buildroot}%{_libdir}/pkgconfig/cemonitor-service.pc.new %{buildroot}%{_libdir}/pkgconfig/cemonitor-service.pc
+sed 's|%{buildroot}||g;s|lib\s*$|lib64|g' %{buildroot}%{_libdir}/pkgconfig/cemonitor-consumer.pc > %{buildroot}%{_libdir}/pkgconfig/cemonitor-consumer.pc.new
+mv %{buildroot}%{_libdir}/pkgconfig/cemonitor-consumer.pc.new %{buildroot}%{_libdir}/pkgconfig/cemonitor-consumer.pc
+
+%clean 
+rm -rf %{buildroot}
+
+%files
+%defattr(-,root,root)
+/usr/bin/glite-ce-monitor-*
+%doc /usr/share/man/man1/glite-ce-*.1.gz
+
+
+
+
+
+%package -n glite-ce-monitor-client-api-c
+Summary: Libraries for the client of the CEMonitor service
+Group: System Environment/Libraries
+
+%description -n glite-ce-monitor-client-api-c
+Libraries for the client of the CEMonitor service
+
+%files -n glite-ce-monitor-client-api-c
+%defattr(-,root,root)
+%{_libdir}/libglite_ce_monitor_*.so.0
+%{_libdir}/libglite_ce_monitor_*.so.0.0.0
+
+%post -n glite-ce-monitor-client-api-c -p /sbin/ldconfig
+
+%postun -n glite-ce-monitor-client-api-c -p /sbin/ldconfig
+
+
+
+%package -n glite-ce-monitor-client-devel
+Summary: Development files for the client of the CEMonitor service
+Group: System Environment/Libraries
+Requires: glite-ce-monitor-client-api-c%{?_isa} = %{version}-%{release}
+Requires: boost-devel, gsoap-devel
+Requires: globus-openssl-devel, globus-openssl-module-devel
+Requires: globus-callout-devel, globus-common-devel
+Requires: voms-devel, glite-lbjp-common-gsoap-plugin-devel
+
+%description -n glite-ce-monitor-client-devel
+Development files for the client of the CEMonitor service
+
+%files -n glite-ce-monitor-client-devel
+%defattr(-,root,root)
+%dir /usr/include/glite/
+%dir /usr/include/glite/ce/
+%dir /usr/include/glite/ce/monitor-client-api-c/
+/usr/include/glite/ce/monitor-client-api-c/*.h
+/usr/include/glite/ce/monitor-client-api-c/*.nsmap
+%{_libdir}/pkgconfig/*.pc
+%{_libdir}/libglite_ce_monitor_*.so
+
+
+%changelog
+* Fri Aug 31 2012 CREAM group <cream-support@lists.infn.it> - @PKGVERSION@-@PKGRELEASE@
+- New major release
+
+

@@ -21,7 +21,8 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
 set(AUTODIR "autogen")
 
 if(NOT DEFINED WSDL_PATH)
-    message(FATAL_ERROR "Missing wsdl path, please specify -DWSDL_PATH:string definition")
+    message("Undefined variable WSDL_PATH, used /usr/share/wsdl/cream-ce")
+    set(WSDL_PATH /usr/share/wsdl/cream-ce)
 endif(NOT DEFINED WSDL_PATH)
 
 find_package(PkgConfig REQUIRED)
