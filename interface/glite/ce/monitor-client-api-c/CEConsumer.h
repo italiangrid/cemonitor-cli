@@ -20,7 +20,7 @@
         CEConsumer.hh: header file for a C++ providing consumer APIs
 
         Authors: Alvise Dorigo <alvise.dorigo@pd.infn.it>
-        Version info: $Id: CEConsumer.h,v 1.37.8.3.2.2.4.1 2011/08/31 11:41:59 adorigo Exp $
+        Version info: $Id: CEConsumer.h,v 1.37.8.3.2.2.4.2 2012/06/19 07:34:19 adorigo Exp $
 */
 #ifndef __GLITE_CE_MONITOR_CLIENT_CECONSUMER__
 #define __GLITE_CE_MONITOR_CLIENT_CECONSUMER__
@@ -33,18 +33,15 @@
 #include <string>
 #include <vector>
 
-
 extern "C" {
 #undef IOV_MAX // this is very ugly, but the only way to silent a warning concerning
                // the redefinition of IOV_MAX
-
+#ifdef NEW_GSOAP_PLUGIN_API
 #include <gssapi.h>
 #include "glite/security/glite_gsplugin-int.h"
-
-#include "glite/security/glite_gsplugin.h"
+#endif
+#include "glite/security/glite_gsplugin.h"	
 }
-
-
 
 namespace glite {
   namespace ce {
@@ -77,6 +74,7 @@ namespace glite {
 	  std::vector<monitortypes__Event> Events;
 	  bool authn;
 	  std::string client_dn;
+	  bool m_valid;
 	  
 	protected:
 	  CEConsumer(const CEConsumer&) {}
@@ -94,6 +92,7 @@ namespace glite {
 	  const char* m_key;
 	  
 	public:
+   	  bool is_valid( void ) const { return m_valid; }
 	  /**
 	     Costructor. Build up a listener object.
 	     \param port The TCP port where the listener will be listening for notifications

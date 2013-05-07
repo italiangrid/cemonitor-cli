@@ -20,10 +20,28 @@
 project(cemonitor-cli CXX)
 cmake_minimum_required(VERSION 2.6)
 
-if(NOT DEFINED PVER)
-    message(WARNING "Undefined version number, selected 9.9.9")
-    set(PVER "9.9.9")
-endif(NOT DEFINED PVER)
+set(PKGNAME glite-ce-monitor-cli)
+set(PKGVER 1.14.2)
+set(PKGREL 1)
+
+set(ENV{PKG_CONFIG_PATH}
+"${CMAKE_INSTALL_PREFIX}/usr/lib/pkgconfig/:${CMAKE_INSTALL_PREFIX}/usr/lib64/pkgconfig/:$ENV{PKG_CONFIG_PATH}")
+
+set(ITEMS_FOR_SOURCE CMakeLists.txt doc interface src)
+
+add_custom_target(rpm 
+                  COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/rpmbuild/BUILD
+                                   ${CMAKE_CURRENT_BINARY_DIR}/rpmbuild/RPMS
+                                   ${CMAKE_CURRENT_BINARY_DIR}/rpmbuild/SOURCES
+                                   ${CMAKE_CURRENT_BINARY_DIR}/rpmbuild/SPECS
+                                   ${CMAKE_CURRENT_BINARY_DIR}/rpmbuild/SRPMS
+                  COMMAND tar -zcf ${CMAKE_CURRENT_BINARY_DIR}/rpmbuild/SOURCES/${PKGNAME}.tar.gz ${ITEMS_FOR_SOURCE}
+                  COMMAND sed -e 's|@PKGVERSION@|${PKGVER}|g'
+                              -e 's|@PKGRELEASE@|${PKGREL}|g' 
+                              project/${PKGNAME}.spec.in > ${CMAKE_CURRENT_BINARY_DIR}/rpmbuild/SPECS/${PKGNAME}.spec
+                  COMMAND rpmbuild -ba --define '_topdir ${CMAKE_CURRENT_BINARY_DIR}/rpmbuild'
+                          ${CMAKE_CURRENT_BINARY_DIR}/rpmbuild/SPECS/${PKGNAME}.spec
+                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(src)
 add_subdirectory(interface)

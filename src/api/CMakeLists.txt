@@ -113,14 +113,18 @@ target_link_libraries(glite_ce_monitor_consumer ${GSOAP_LIBRARIES}
 
 
 install(TARGETS glite_ce_monitor_client
-        LIBRARY DESTINATION usr/lib)
+        LIBRARY DESTINATION usr/${LIBSUBDIR})
 
 install(TARGETS glite_ce_monitor_consumer
-        LIBRARY DESTINATION usr/lib)
+        LIBRARY DESTINATION usr/${LIBSUBDIR})
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${AUTODIR}/glite/ce/monitor-client-api-c/
         DESTINATION usr/include/glite/ce/monitor-client-api-c
         FILES_MATCHING PATTERN "*.h")
+
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${AUTODIR}/glite/ce/monitor-client-api-c/
+        DESTINATION usr/include/glite/ce/monitor-client-api-c
+        FILES_MATCHING PATTERN "*.nsmap")
 
 add_subdirectory(pkgconfig)
 

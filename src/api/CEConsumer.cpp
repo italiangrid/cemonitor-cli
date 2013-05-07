@@ -33,7 +33,6 @@ END LICENSE */
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-
 extern int h_errno;
 
 using namespace std;
@@ -70,12 +69,13 @@ cemon_api::CEConsumer::CEConsumer(const int& tcpport, const char* cert, const ch
     ctx(NULL),
     alen(sizeof(peerAddress)),
     m_cert( cert ),
-    m_key( key )
+    m_key( key ),
+    m_valid( false )
 {
   if ( cert && key ) {
     if ( glite_gsplugin_init_context(&ctx) ) {
       perror("init context"); 
-      exit(1); 
+      return; 
     }
     ::unsetenv("X509_USER_CERT");
     ::unsetenv("X509_USER_KEY");
@@ -83,14 +83,14 @@ cemon_api::CEConsumer::CEConsumer(const int& tcpport, const char* cert, const ch
     ::setenv("X509_USER_KEY", key, 0);
     if (glite_gsplugin_set_credential(ctx, cert, key)) {
       fprintf (stderr, "Failed to set credentials. Maybe you need to remove the passphrase from the key pem file.\n");
-      exit(1);
+      return;
     }
   }
 
   SOAP = soap_new();
   if(!SOAP) {
     fprintf(stderr, "Couldn't create SOAP structure. STOP!");
-    exit(1);
+    return;
   }
   SOAP->send_timeout = SOAP_RECV_TIMEOUT;
   SOAP->recv_timeout = SOAP_SEND_TIMEOUT;
@@ -98,13 +98,13 @@ cemon_api::CEConsumer::CEConsumer(const int& tcpport, const char* cert, const ch
   if(cert && key ) {
     if ( soap_register_plugin_arg(SOAP, glite_gsplugin, ctx? : NULL) ) {
       fprintf(stderr, "Can't register plugin\n");
-      exit(1);
+      return;
     }
     authn = true;
   }
   soap_set_namespaces(SOAP, CEMON_CONSUMER_namespaces);
   Events.reserve(1000);
-
+  m_valid = true;
 }
 
 
@@ -138,7 +138,6 @@ bool cemon_api::CEConsumer::bind() {
   return true;
 }
 
-
 /******************************************************************
  *
  *
@@ -151,7 +150,7 @@ bool cemon_api::CEConsumer::accept()
   if( m_cert && m_key ) {
     if (glite_gsplugin_set_credential(ctx, m_cert, m_key)) {
       fprintf (stderr, "Failed to set credentials. Maybe you need to remove the passphrase from the key pem file.\n");
-      return false;//exit(1);
+      return false;
     }
   }
   
@@ -246,6 +245,7 @@ bool cemon_api::CEConsumer::serve()
 		      notification->Event[0]->Producer,
 		      NULL);
 	}
+	//}
       
 	for(vector<monitortypes__Event * >::const_iterator eit = notification->Event.begin();
 	    eit != notification->Event.end();
@@ -363,6 +363,26 @@ int monitorws__Notify(struct soap *soap, monitortypes__Notification *notif, moni
 //______________________________________________________________________________
 string resolveName(const string& address)
 {
+
+//   struct in_addr addr;
+//   string name;
+  
+//   inet_aton(address.c_str(), &addr);
+
+//   { // let's protect gethostbyaddr that is not thread-safe and 
+//     // man page doesn't speak about a reentrant version of it.
+//     boost::recursive_mutex mutex;
+//     boost::recursive_mutex::scoped_lock M( mutex );
+
+//     struct hostent* H = gethostbyaddr(&addr, sizeof(addr), AF_INET);
+
+//     if(H)
+//       name = H->h_name;
+//     else
+//       name = "UnresolvedHost";
+//   }  
+//   return name;
+
   struct addrinfo * result;
   struct addrinfo * res;
   int error;
@@ -412,6 +432,21 @@ string resolveName(const string& address)
 
 //______________________________________________________________________________
 string cemon_api::CEConsumer::getPeerName() {
+//   if(!authn) {
+//     string tmp = boost::str( boost::format("%1%.%2%.%3%.%4%") % (int)((SOAP->ip >> 24)&0xFF) % (int)((SOAP->ip >> 16)&0xFF) % (int)((SOAP->ip >>8)&0xFF) % (int)(SOAP->ip&0xFF ) );
+//     return tmp;
+//   } else {
+//  
+//     glite_gsplugin_Context glite_ctx;
+//     glite_ctx = glite_gsplugin_get_context(SOAP);
+//     memset( (void*)&peerAddress, 0, sizeof(peerAddress));
+//     if (glite_ctx != NULL && glite_ctx->connection != NULL) { 
+//       ::getpeername(glite_ctx->connection->sock, (struct sockaddr *)&peerAddress, (socklen_t*)&alen);
+//       unsigned char *tmp = (unsigned char *) &peerAddress.sin6_addr;//.s_addr;
+//       string stmp = boost::str( boost::format("%1%.%2%.%3%.%4%") % (int)tmp[0] % (int)tmp[1] % (int)tmp[2] % (int)tmp[3] );
+//       return stmp;
+//     } else {return "";}
+//   }
 
   if(!authn) {
     sockaddr_storage addr_client;

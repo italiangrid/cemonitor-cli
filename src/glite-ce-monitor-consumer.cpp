@@ -94,6 +94,9 @@ int main(int argc, char *argv[])
     consumer = new CEConsumer(port, certfile.c_str(), keyfile.c_str());
   } else consumer = new CEConsumer( port );
 
+  if(!consumer->is_valid())
+    exit(1);
+
   while(!consumer->bind())
     {
       cout << "error message=" << consumer->getErrorMessage() << endl;
